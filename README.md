@@ -1,4 +1,4 @@
-w# JNDI settings
+# JNDI settings
 
 Contains JNDI settings for different application servers and frameworks.
 
