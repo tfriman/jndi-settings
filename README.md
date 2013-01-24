@@ -4,26 +4,33 @@ Contains JNDI settings for different application servers and frameworks.
 
 ## Purpose of this repository
 
-Java web app package (usually WAR) should not contain any environmental specific configurations. The right place for those is in the JNDI.
-Do *not* use any Maven profiles or Ant property file packaging mechanisms.
+Java web app package (usually WAR) should not contain any
+environmental specific configurations. The right place for those is in
+the JNDI. [Java Naming and Directory
+Interface](http://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface)
+is the standard way looking up objects and data via a name. Most Java
+application servers provide it and hence provide standard locations
+for configuration parameters.
 
-There will be examples of configurations for different application servers and frameworks in this repository.
+There are few examples of configurations for different application
+servers and frameworks in this repository. If you have configuration
+examples not found here, please send pull request.
 
-## Definitions
+## Disclaimers
 
-Java Naming Directory Service ... see JNDI definition from Wiki or Oracle or [Google](https://www.google.com) if you need one.
+These are examples, NOT production ready solutions. Exception handling
+is missing as well as logging. There are no tests. Naming is horrible.
+
+Examples have been tested on OS X (Mountain Lion) using Java 1.6.0_37 and Maven 3.0.4 only.
+
+Examples just read in java.lang.String using env-entries. One could
+use that java.lang.String as file path and load configurations from
+there.
 
 ## Application Servers
 
-I have not tested these configurations with all different versions so caveat emptor.
-
-### Jetty
-
-#### Version 8
-
-### Tomcat
-
-#### Version 7
+Examples contain Jetty 8.1 and Tomcat 7 embedded with configurations
+that can be used with stand alone versions.
 
 ### JBoss
 #### Version 6.1
@@ -36,7 +43,7 @@ names etc).
 
 ### Old skool
 
-Traditional way to access.
+Traditional way to access JNDI. 
 
 ```java
   try {
@@ -51,15 +58,16 @@ Traditional way to access.
 
 ### Spring 
 
-Here we are using Spring version 3.0.
+Here we are using Spring version 3.2.
 
+#### XML configuration:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
         >
     <jee:jndi-lookup id="serverPort" jndi-name="customApplicationConfig/serverPort" 
         lookup-on-startup="true" expected-type="java.lang.Long"/>
@@ -67,9 +75,13 @@ Here we are using Spring version 3.0.
 </beans>
 ```
 
+#### Java configuration:
+
+TODO
+
 ### Guice
 
-I'm not that experienced with Guice but this worked. You need these in your pom.xml, I used Guice version 3.0.
+Disclaimer: I have not used Guice, this example is just made up but it _seems_ to work. You need these in your pom.xml, I used Guice version 3.0.
 
 ```xml
 <dependency>
