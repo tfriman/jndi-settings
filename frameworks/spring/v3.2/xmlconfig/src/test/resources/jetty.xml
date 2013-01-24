@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <Configure id="server" class="org.eclipse.jetty.server.Server">
-  <New class="org.eclipse.jetty.plus.jndi.EnvEntry">
-    <Arg/>
-    <Arg>testString</Arg>
-    <Arg type="java.lang.String">Hi, I came from jetty.xml!</Arg>
-    <Arg type="boolean">true</Arg>
-  </New>
+    <New class="org.eclipse.jetty.plus.jndi.EnvEntry">
+        <Arg/>
+        <Arg>testString</Arg>
+        <Arg type="java.lang.String">Hi, I came from jetty.xml!</Arg>
+        <Arg type="boolean">true</Arg>
+    </New>
 </Configure>

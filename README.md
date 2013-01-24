@@ -1,3 +1,4 @@
+~toc~
 # JNDI settings
 
 Contains JNDI settings for different application servers and frameworks.
@@ -32,8 +33,9 @@ there.
 Examples contain Jetty 8.1 and Tomcat 7 embedded with configurations
 that can be used with stand alone versions.
 
-### JBoss
-#### Version 6.1
+There is an excerpt of configuration for version JBoss 6.1. 
+
+More is needed...
 
 ## Accessing JNDI
 
@@ -77,7 +79,29 @@ Here we are using Spring version 3.2.
 
 #### Java configuration:
 
-TODO
+There is no annotation for jee:jndi-lookup but it can be circumvented
+using JndiObjectFactoryBean directly (the same way jee:jndi-lookup
+does it under the hood)
+
+```java
+package com.example;
+
+@org.springframework.web.servlet.config.annotation.EnableWebMvc
+@org.springframework.context.annotation.Configuration
+@org.springframework.context.annotation.ComponentScan(basePackages = "com.example")
+public class AppConfig extends org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter {
+
+    @org.springframework.context.annotation.Bean
+    public String messageFromJndi() throws javax.naming.NamingException {
+        org.springframework.jndi.JndiObjectFactoryBean jndiObjectFactoryBean = new org.springframework.jndi.JndiObjectFactoryBean();
+        jndiObjectFactoryBean.setJndiName("java:/comp/env/testString");
+        jndiObjectFactoryBean.setLookupOnStartup(true);
+        jndiObjectFactoryBean.setExpectedType(String.class);
+        jndiObjectFactoryBean.afterPropertiesSet(); // Yes, this is needed.
+        return (String) jndiObjectFactoryBean.getObject();
+    }
+}
+```
 
 ### Guice
 

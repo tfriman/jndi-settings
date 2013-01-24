@@ -24,9 +24,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         JndiObjectFactoryBean jndiObjectFactoryBean = new JndiObjectFactoryBean();
         jndiObjectFactoryBean.setJndiName("java:/comp/env/testString");
         jndiObjectFactoryBean.setLookupOnStartup(true);
+        jndiObjectFactoryBean.setExpectedType(java.lang.String.class);
         jndiObjectFactoryBean.afterPropertiesSet(); // Yes, this is needed.
         return (String) jndiObjectFactoryBean.getObject();
     }
-
-
 }

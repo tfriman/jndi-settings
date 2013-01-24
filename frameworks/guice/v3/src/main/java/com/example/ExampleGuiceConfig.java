@@ -1,13 +1,14 @@
 package com.example;
 
+import com.google.inject.Provider;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
-import com.google.inject.Provider;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import static com.google.inject.jndi.JndiIntegration.fromJndi;
 import static com.google.inject.name.Names.named;
-import static com.google.inject.jndi.JndiIntegration.*;
 
 public class ExampleGuiceConfig extends JerseyServletModule {
 

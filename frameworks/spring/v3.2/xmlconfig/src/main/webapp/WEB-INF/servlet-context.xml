@@ -11,11 +11,11 @@
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
                            ">
 
-  <context:component-scan base-package="com.example"/>
+    <context:component-scan base-package="com.example"/>
 
-  <mvc:annotation-driven/>
+    <mvc:annotation-driven/>
 
-  <jee:jndi-lookup id="messageFromJndi" jndi-name="testString"
-                   lookup-on-startup="true" expected-type="java.lang.String"/>
+    <jee:jndi-lookup id="messageFromJndi" jndi-name="testString"
+                     lookup-on-startup="true" expected-type="java.lang.String"/>
 
 </beans>
