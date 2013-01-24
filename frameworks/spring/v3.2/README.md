@@ -1,0 +1,1 @@
+Contains parent pom for two Spring web apps.
