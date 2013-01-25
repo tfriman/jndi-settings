@@ -15,7 +15,16 @@
 
     <mvc:annotation-driven/>
 
-    <jee:jndi-lookup id="messageFromJndi" jndi-name="testString"
+
+    <jee:jndi-lookup id="messageFromJndi" jndi-name="java:comp/env/testString"
                      lookup-on-startup="true" expected-type="java.lang.String"/>
 
+    <!-- this works too, because java:comp/env is the default search path in the JndiObjectFactoryBean,
+         see setJndiName(String jndiName) javadoc:
+         Specify the JNDI name to look up. If it doesn't begin with "java:comp/env/"
+         this prefix is added automatically if "resourceRef" is set to "true".-->
+    <!--
+    <jee:jndi-lookup id="messageFromJndi" jndi-name="testString"
+                     lookup-on-startup="true" expected-type="java.lang.String"/>
+    -->    
 </beans>
