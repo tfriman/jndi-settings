@@ -14,18 +14,22 @@ for configuration parameters.
 
 There are few examples of configurations for different application
 servers and frameworks in this repository. If you have configuration
-examples not found here, please send pull request.
+examples not found here, please send pull request. Please note that
+"standard" JNDI configurations like database source configurations
+have been excluded, there are myriads of examples of those in the Web.
 
 ## Disclaimers
 
 These are examples, NOT production ready solutions. Exception handling
 is missing as well as logging. There are no tests. Naming is horrible.
 
-Examples have been tested on OS X (Mountain Lion) using Java 1.6.0_37 and Maven 3.0.4 only.
+Examples have been tested on OS X (Mountain Lion) using Java 1.6.0_37
+and Maven 3.0.4 only.
 
 Examples just read in java.lang.String using env-entries. One could
 use that java.lang.String as file path and load configurations from
-there.
+there. Please note that env-entries can basically contain only
+java.lang.*. See specification for more info.
 
 ## Application Servers
 
@@ -34,7 +38,7 @@ that can be used with stand alone versions.
 
 There is an excerpt of configuration for version JBoss 6.1. 
 
-More is needed...
+More is needed.
 
 ## Accessing JNDI
 
@@ -56,12 +60,14 @@ Traditional way to access JNDI.
       throw new RuntimeException("TODO", e);
   }
 ```
-
 ### Spring 
 
 Here we are using Spring version 3.2.
 
 #### XML configuration:
+
+jee:jndi-lookup -tag basically uses JndiObjectFactoryBean, see it's javadoc.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -70,8 +76,18 @@ Here we are using Spring version 3.2.
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
         >
-    <jee:jndi-lookup id="serverPort" jndi-name="customApplicationConfig/serverPort" 
+    <jee:jndi-lookup id="serverPort" jndi-name=""java:comp/env/serverPort" 
         lookup-on-startup="true" expected-type="java.lang.Long"/>
+
+    <!-- this works too, because java:comp/env is the default search path in the JndiObjectFactoryBean,
+         see setJndiName(String jndiName) javadoc:
+         Specify the JNDI name to look up. If it doesn't begin with "java:comp/env/"
+         this prefix is added automatically if "resourceRef" is set to "true".-->
+    <!--
+    <jee:jndi-lookup id="serverPort" jndi-name="serverPort"
+                     lookup-on-startup="true" expected-type="java.lang.Long"/>
+    -->    
+
     <!-- other definitions here -->
 </beans>
 ```
@@ -101,10 +117,11 @@ public class AppConfig extends org.springframework.web.servlet.config.annotation
     }
 }
 ```
-
 ### Guice
 
-Disclaimer: I have not used Guice, this example is just made up but it _seems_ to work. You need these in your pom.xml, I used Guice version 3.0.
+Disclaimer: I have not used Guice, this example is just made up but it
+_seems_ to work. You need these in your pom.xml, I used Guice version
+3.0.
 
 ```xml
 <dependency>
@@ -118,7 +135,6 @@ Disclaimer: I have not used Guice, this example is just made up but it _seems_ t
   <version>${guice.version}</version>
 </dependency>
 ```
-
 Module setup:
 ```java
 public class ExampleModule extends com.google.inject.AbstractModule {
@@ -135,7 +151,7 @@ public class ExampleModule extends com.google.inject.AbstractModule {
 }
 ```
 
-And injecting that to Bean:
+And injecting that to Example:
 
 ```java
 @com.google.inject.servlet.SessionScoped
@@ -147,3 +163,11 @@ public class Example {
    }
 }
 ```
+
+## TODO 
+
+* Example of reading the configuration file.
+* JNDI namespaces
+* Gists instead of those embedded examples on this page... is it possible?
+
+
