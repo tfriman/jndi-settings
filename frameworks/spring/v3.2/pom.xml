@@ -12,6 +12,8 @@
   <modules>
     <module>xmlconfig</module>
     <module>javaconfig</module>
+    <module>propertyfile</module>
+    <module>propertyfile_javaconfig</module>
   </modules>
 
   <properties>
