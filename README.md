@@ -22,21 +22,21 @@ have been excluded, there are myriads of examples of those in the Web.
 
 These are examples, NOT production ready solutions. Exception handling
 is missing as well as logging. There are no tests. Naming is horrible.
+JNDI namespaces are not used.
 
 Examples have been tested on OS X (Mountain Lion) using Java 1.6.0_37
 and Maven 3.0.4 only.
 
-Examples just read in java.lang.String using env-entries. One could
-use that java.lang.String as file path and load configurations from
-there. Please note that env-entries can basically contain only
-java.lang.*. See specification for more info.
+Examples just read in java.lang.String using env-entries. Please note
+that env-entries can basically contain only java.lang.*. See
+env-entries specification for more info.
 
 ## Application Servers
 
 Examples contain Jetty 8.1 and Tomcat 7 embedded with configurations
 that can be used with stand alone versions.
 
-There is an excerpt of configuration for version JBoss 6.1. 
+There is an excerpt of configuration for version JBoss 6.1.
 
 More is needed.
 
@@ -48,7 +48,7 @@ names etc).
 
 ### Old skool
 
-Traditional way to access JNDI. 
+Traditional way to access JNDI.
 
 ```java
   try {
@@ -60,7 +60,7 @@ Traditional way to access JNDI.
       throw new RuntimeException("TODO", e);
   }
 ```
-### Spring 
+### Spring
 
 Here we are using Spring version 3.2.
 
@@ -76,7 +76,7 @@ jee:jndi-lookup -tag basically uses JndiObjectFactoryBean, see it's javadoc.
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
         >
-    <jee:jndi-lookup id="serverPort" jndi-name=""java:comp/env/serverPort" 
+    <jee:jndi-lookup id="serverPort" jndi-name=""java:comp/env/serverPort"
         lookup-on-startup="true" expected-type="java.lang.Long"/>
 
     <!-- this works too, because java:comp/env is the default search path in the JndiObjectFactoryBean,
@@ -86,8 +86,43 @@ jee:jndi-lookup -tag basically uses JndiObjectFactoryBean, see it's javadoc.
     <!--
     <jee:jndi-lookup id="serverPort" jndi-name="serverPort"
                      lookup-on-startup="true" expected-type="java.lang.Long"/>
-    -->    
+    -->
 
+    <!-- other definitions here -->
+</beans>
+```
+
+#### Reading configuration properties file path via JNDI
+
+It is possible to read configuration file path via JNDI and use it as a property placeholder. Here is an XML configuration example how to do it.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+                           ">
+    <description>This file contains configurations for property file reading through JNDI.</description>
+
+    <context:component-scan base-package="com.example"/>
+
+    <mvc:annotation-driven/>
+
+    <jee:jndi-lookup id="configurationFilePath" jndi-name="java:comp/env/configurationFilePath"
+                     lookup-on-startup="true" expected-type="java.lang.String"/>
+
+    <context:property-placeholder location="file:${configurationFilePath}"/>
+
+    <bean id="exampleProperty" class="java.lang.String">
+        <constructor-arg value="${example.foo}"/>
+    </bean>
     <!-- other definitions here -->
 </beans>
 ```
@@ -117,6 +152,7 @@ public class AppConfig extends org.springframework.web.servlet.config.annotation
     }
 }
 ```
+
 ### Guice
 
 Disclaimer: I have not used Guice, this example is just made up but it
@@ -164,10 +200,7 @@ public class Example {
 }
 ```
 
-## TODO 
+## TODO
 
-* Example of reading the configuration file.
-* JNDI namespaces
 * Gists instead of those embedded examples on this page... is it possible?
-
-
+* Property file reading examples using Spring JavaConfig and Guice.
