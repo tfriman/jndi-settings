@@ -22,7 +22,8 @@ have been excluded, there are myriads of examples of those in the Web.
 
 These are examples, NOT production ready solutions. Exception handling
 is missing as well as logging. There are no tests. Naming is horrible.
-JNDI namespaces are not used.
+Code duplication is intentional, each example should be as simple as
+possible. JNDI namespaces are not used.
 
 Examples have been tested on OS X (Mountain Lion) using Java 1.6.0_37
 and Maven 3.0.4 only.
@@ -202,5 +203,4 @@ public class Example {
 
 ## TODO
 
-* Gists instead of those embedded examples on this page... is it possible?
-* Property file reading examples using Spring JavaConfig and Guice.
+* Property file reading examples using Guice.
