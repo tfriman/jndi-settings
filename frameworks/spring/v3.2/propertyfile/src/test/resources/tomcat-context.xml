@@ -2,5 +2,5 @@
 <Context>
     <Environment name="configurationFilePath" value="etc/example.properties"
                  type="java.lang.String" override="false"/>
-    <!--Parameter name="example.bar" value="Example parameter from tomcat-context.xml, can't be overridden" override="false"/-->
+    <!--Parameter name="example.foo" value="Example parameter from tomcat-context.xml, can't be overridden" override="false"/-->
 </Context>
